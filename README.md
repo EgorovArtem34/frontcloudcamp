@@ -1,2 +1,0 @@
-# frontcloudcamp
-empty
