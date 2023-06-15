@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import './mainPage.scss';
 
 const Form = () => {
+  const navigate = useNavigate();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('submit!');
+    navigate('/step1');
   };
 
   return (
@@ -28,7 +30,7 @@ const Form = () => {
           name="email"
           className="form__input"
           disabled
-          defaultValue="tim.jennings@example.com"
+          defaultValue="artegtor@gmail.com"
         />
       </label>
       <br />

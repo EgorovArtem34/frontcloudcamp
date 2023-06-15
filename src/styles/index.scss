@@ -55,4 +55,25 @@ a {
     background-color: #7275e6;
     background-image: linear-gradient(315deg, #4b60d7 0%, #5345e8 74%);
   }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.form__input-error {
+  border: 1px solid red;
+}
+
+.form__error-text {
+  color: rgb(138, 25, 25);
+}
+
+.input_steps {
+  width: 300px;
+}
+
+.form__button-wrap {
+  display: flex;
+  justify-content: space-between;
 }
