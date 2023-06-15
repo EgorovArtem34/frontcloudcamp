@@ -93,6 +93,7 @@ const Form = () => {
           onBlur={formik.handleBlur}
           value={formik.values.nickname}
           id="field-nickname"
+          placeholder="Напишите ваш ник"
           className={inputClass('nickname')}
           ref={inputEl}
           required
@@ -110,6 +111,7 @@ const Form = () => {
           onBlur={formik.handleBlur}
           value={formik.values.name}
           id="field-name"
+          placeholder="Напишите ваше имя"
           className={inputClass('name')}
           required
         />
@@ -126,6 +128,7 @@ const Form = () => {
           onBlur={formik.handleBlur}
           value={formik.values.surname}
           id="field-surname"
+          placeholder="Напишите вашу фамилию"
           className={inputClass('surname')}
           required
         />
