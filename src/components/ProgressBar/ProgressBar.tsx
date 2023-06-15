@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import cn from 'classnames';
+import { useLocation, useNavigate  } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import './progressBar.scss';
 import { StepNumbersType } from '../../types';
@@ -9,6 +10,8 @@ import { setActiveStep } from '../../store/progressBarSlice';
 
 const ProgressBar = () => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { activeStep, finishedSteps } = useAppSelector((state) => state.progressBarSlice);
   const stepNumbers: StepNumbersType = [1, 2, 3];
   const stepClass = (stepNumber: number) => cn('progress-bar__step', {
@@ -22,9 +25,10 @@ const ProgressBar = () => {
 
   useEffect(() => {
     const calculatedWidth = calculateProgressBarWidth(activeStep);
+    console.log('progressBAR', calculatedWidth, activeStep);
 
     document.documentElement.style.setProperty('--finished-steps-width', `${calculatedWidth}%`);
-  }, [activeStep]);
+  }, [activeStep, location]);
 
   const renderCircleContent = (stepNumber: number) => {
     if (finishedSteps.includes(stepNumber)) {
@@ -37,8 +41,18 @@ const ProgressBar = () => {
   };
 
   const handleClick = (stepNumber: number) => {
-    if (finishedSteps.includes(stepNumber)) {
-      dispatch(setActiveStep(stepNumber));
+    const finishedStepsLength = finishedSteps.length;
+    switch (finishedStepsLength) {
+      case 0:
+        break;
+      case 1:
+      case 2:
+      case 3:
+        dispatch(setActiveStep(stepNumber));
+        navigate(`/step${stepNumber}`);
+        break;
+      default:
+        break;
     }
   };
 

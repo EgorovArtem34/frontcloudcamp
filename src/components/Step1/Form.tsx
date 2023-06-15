@@ -9,6 +9,7 @@ import { Gender, InputNameType } from '../../types';
 import {
   setNickName, setName, setSurname, setSex,
 } from '../../store/userSlice';
+import { addFinishedStep, setActiveStep } from '../../store/progressBarSlice';
 
 const Form = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Form = () => {
   const {
     nickname, name, surname, sex,
   } = useAppSelector((state) => state.userSlice.step1);
+  const { activeStep, finishedSteps } = useAppSelector((state) => state.progressBarSlice);
 
   useEffect(() => {
     if (inputEl.current) {
@@ -52,6 +54,11 @@ const Form = () => {
     },
     validationSchema: signUpSchema,
     onSubmit: () => {
+      const nextStep = 2;
+      if (!finishedSteps.includes(activeStep)) {
+        dispatch(addFinishedStep(activeStep));
+      }
+      dispatch(setActiveStep(nextStep));
       navigate('/step2');
     },
   });
@@ -79,6 +86,10 @@ const Form = () => {
         break;
     }
     formik.handleChange(event);
+  };
+
+  const handleBack = () => {
+    navigate(-1);
   };
 
   return (
@@ -160,7 +171,7 @@ const Form = () => {
           type="button"
           className="form__button button__back"
           id="button-back"
-          onClick={() => navigate(-1)}
+          onClick={handleBack}
         >
           Назад
         </button>
