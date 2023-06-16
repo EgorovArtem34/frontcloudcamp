@@ -20,3 +20,24 @@ export type UserStateType = {
 };
 
 export type InputNameType = 'nickname' | 'name' | 'surname' | 'sex';
+
+export interface Advantage {
+  id: number;
+  value: string;
+}
+
+export type AdvantageStateType = {
+  advantages: Advantage[];
+};
+
+interface CheckboxState {
+  [key: number]: boolean;
+}
+
+export type CheckboxStateType = {
+  checkBoxes: CheckboxState;
+};
+
+export type RadioInputStateType = {
+  selectedRadioValue: number | null;
+};

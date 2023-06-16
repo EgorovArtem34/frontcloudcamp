@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import cn from 'classnames';
-import { useLocation, useNavigate  } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import './progressBar.scss';
 import { StepNumbersType } from '../../types';
