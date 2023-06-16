@@ -16,7 +16,7 @@ const Form = () => {
         <input
           type="text"
           name="phoneNumber"
-          className="form__input"
+          className="form__input form__input_main-page"
           disabled
           defaultValue="+7 999 999-99-99"
         />
@@ -28,7 +28,7 @@ const Form = () => {
         <input
           type="email"
           name="email"
-          className="form__input"
+          className="form__input form__input_main-page"
           disabled
           defaultValue="artegtor@gmail.com"
         />
