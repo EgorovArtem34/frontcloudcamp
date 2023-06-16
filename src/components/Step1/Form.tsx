@@ -63,7 +63,7 @@ const Form = () => {
     },
   });
 
-  const inputClass = (inputName: InputNameType) => cn('form__input', 'input_steps', {
+  const inputClass = (inputName: InputNameType) => cn('form__input', 'form__input_step1', {
     'form__input-error': formik.errors[inputName] && formik.touched[inputName],
   });
 
