@@ -16,7 +16,12 @@ export type UserStateType = {
     name: string;
     surname: string;
     sex: Gender | '';
-  };
+  },
+  postData: {
+    error: null | string,
+    isLoading: boolean,
+    postResponse: any,
+  }
 };
 
 export type InputNameType = 'nickname' | 'name' | 'surname' | 'sex';
@@ -40,4 +45,19 @@ export type CheckboxStateType = {
 
 export type RadioInputStateType = {
   selectedRadioValue: number | null;
+};
+
+export type DataPostType = {
+  advantages: Advantage[];
+  checkBoxes: CheckboxState;
+  selectedRadioValue: number | null;
+  about: {
+    about: string;
+  };
+  nickname: string;
+  name: string;
+  surname: string;
+  sex: '' | Gender;
+  email: string;
+  phone: string;
 };
