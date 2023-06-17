@@ -12,8 +12,11 @@ const radioInputsSlice = createSlice({
     setRadioValue: (state, action: PayloadAction<number>) => {
       state.selectedRadioValue = action.payload;
     },
+    resetRadioValue: (state) => {
+      state.selectedRadioValue = null;
+    },
   },
 });
 
-export const { setRadioValue } = radioInputsSlice.actions;
+export const { setRadioValue, resetRadioValue } = radioInputsSlice.actions;
 export default radioInputsSlice.reducer;

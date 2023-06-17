@@ -5,6 +5,7 @@ import advantagesSlice from './advantagesSlice';
 import checkBoxesSlice from './checkBoxesSlice';
 import radioInputsSlice from './radioInputsSlice';
 import aboutSlice from './aboutSlice';
+import modalsSlice from './modalsSlice';
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     checkBoxesSlice,
     radioInputsSlice,
     aboutSlice,
+    modalsSlice,
   },
 });
 

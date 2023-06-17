@@ -23,8 +23,16 @@ const advantagesSlice = createSlice({
       const { id, value } = payload;
       state.advantages = state.advantages.map((advantage) => (advantage.id === id ? { ...advantage, value } : advantage));
     },
+    reseteAdvantages(state) {
+      state.advantages = initialState.advantages;
+    },
   },
 });
 
-export const { addNewAdvantage, deleteAdvantage, setAdvantageValueById } = advantagesSlice.actions;
+export const {
+  addNewAdvantage,
+  deleteAdvantage,
+  setAdvantageValueById,
+  reseteAdvantages,
+} = advantagesSlice.actions;
 export default advantagesSlice.reducer;
