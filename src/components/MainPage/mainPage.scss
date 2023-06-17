@@ -34,6 +34,10 @@
   line-height: 52px;
 }
 
+.user__data {
+  padding: 0 8px;
+}
+
 .user__data__social {
   display: flex;
 }
@@ -76,15 +80,30 @@
   border: none;
 }
 
-.form__button {
-  width: 79px;
-  height: 44px;
-  padding: 12px 16px;
-  border-radius: 4px;
-  border: none;
+.form__input_main-page {
+  max-width: 400px;
 }
 
-.form__input_main-page {
-  width: 400px;
-  margin: 8px 0px 24px;
+.form__label_main-page {
+  margin-bottom: 24px;
+
+  &:last-of-type {
+    margin-bottom: 48px;
+  }
+}
+
+.form__label-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 375px) {
+
+  .user__data__social {
+    display: block;
+  }
+
+  .avatar__text {
+    font-size: 28px;
+  }
 }

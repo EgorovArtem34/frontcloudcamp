@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './mainPage.scss';
+import { myEmail, myPhone } from '../../utils/utils';
 
 const Form = () => {
   const navigate = useNavigate();
@@ -10,30 +11,26 @@ const Form = () => {
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <label htmlFor="phoneNumber">
+      <label htmlFor="phoneNumber" className="form__label-flex form__label_main-page">
         Номер телефона
-        <br />
         <input
           type="text"
           name="phoneNumber"
           className="form__input form__input_main-page"
           disabled
-          defaultValue="+7 999 999-99-99"
+          defaultValue={myPhone}
         />
       </label>
-      <br />
-      <label htmlFor="email">
+      <label htmlFor="email" className="form__label-flex form__label_main-page">
         Email
-        <br />
         <input
           type="email"
           name="email"
           className="form__input form__input_main-page"
           disabled
-          defaultValue="artegtor@gmail.com"
+          defaultValue={myEmail}
         />
       </label>
-      <br />
       <div className="form__button-wrap">
         <button
           type="submit"

@@ -1,18 +1,18 @@
-import React from 'react';
 import * as _ from 'lodash';
 import './mainPage.scss';
 import socialIcon from '../../assets/icon/interface/social.svg';
 import Form from './Form';
+import { myLinks } from '../../utils/utils';
 
 const MainPage = () => {
-  const createUserSocialElements = () => ['Telegram', 'GitHub', 'Resume'].map((el) => {
+  const createUserSocialElements = () => myLinks.map((link) => {
     const uniqueId = _.uniqueId();
     return (
       <div className="social__element" key={uniqueId}>
         <div className="social__logo">
           <img src={socialIcon} alt="social icon" className="social__logo__icon" />
         </div>
-        <button className="social__link" type="button">{el}</button>
+        <a className="social__link" href={link.url} target="_blank" type="button" rel="noreferrer">{link.name}</a>
       </div>
     );
   });
