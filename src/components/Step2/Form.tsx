@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import './stepTwo.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { addFinishedStep, setActiveStep } from '../../store/progressBarSlice';
-import { deleteAdvantage, setAdvantageValueById } from '../../store/advantagesSlice';
+import { addNewAdvantage, deleteAdvantage, setAdvantageValueById } from '../../store/advantagesSlice';
 import removeIcon from '../../assets/icon/remove-input.svg';
 import plusIcon from '../../assets/icon/plus.svg';
 import CheckBoxGroup from './CheckBoxGroup';
@@ -38,6 +38,11 @@ const Form = () => {
   const handleRemoveInput = (id: number) => {
     dispatch(deleteAdvantage(id));
   };
+  const handleAddInput = () => {
+    const lastAdvantage = advantages.length > 0 ? advantages[advantages.length - 1].id : 0;
+    const newId = lastAdvantage + 1;
+    dispatch(addNewAdvantage({ id: newId, value: '' }));
+  };
 
   const createInputs = () => (advantages.map((advantage) => (
     <div className="form__input_wrapper" key={advantage.id}>
@@ -49,7 +54,6 @@ const Form = () => {
         placeholder="Placeholder"
         id={advantage.id.toString()}
         className="form__input form__input_step2"
-      // required
       />
       <button type="button" className="button-transparent" onClick={() => handleRemoveInput(advantage.id)}>
         <img src={removeIcon} alt="remove" className="form__remove-input-icon" />
@@ -65,7 +69,7 @@ const Form = () => {
         <button
           type="button"
           className="button-transparent button-plus"
-          onClick={() => handleRemoveInput(advantage.id)}
+          onClick={handleAddInput}
         >
           <img src={plusIcon} alt="plus" className="form__add-input-icon" />
         </button>

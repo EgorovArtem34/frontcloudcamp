@@ -1,5 +1,10 @@
 .form__input_step2 {
-  margin: 8px 16px 8px 0;
+  max-width: 300px;
+  margin-right: 16px;
+
+  &:last-of-type {
+    margin-bottom: 8px;
+  }
 }
 
 .form__input_wrapper {
@@ -48,4 +53,16 @@
   margin-right: 8px;
   border: 1.5px solid rgba(0, 0, 0, 0.24);
   border-radius: 4px;
+}
+
+@media (max-width: 630px) {
+
+  .form__input_step2 {
+    margin-right: 12px;
+  }
+
+  .form__remove-input-icon {
+    width: 20px;
+    height: 20px;
+  }
 }
