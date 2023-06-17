@@ -94,9 +94,8 @@ const Form = () => {
 
   return (
     <form className="form" onSubmit={formik.handleSubmit}>
-      <label htmlFor="nickname">
+      <label htmlFor="nickname" className="form__label-flex form__label_step1">
         Nickname
-        <br />
         <input
           type="text"
           name="nickname"
@@ -104,17 +103,15 @@ const Form = () => {
           onBlur={formik.handleBlur}
           value={formik.values.nickname}
           id="field-nickname"
-          placeholder="Напишите ваш ник"
+          placeholder="Никнейм"
           className={inputClass('nickname')}
           ref={inputEl}
           required
         />
         {formik.errors.nickname && formik.touched.nickname && <p className="form__error-text">{formik.errors.nickname}</p>}
       </label>
-      <br />
-      <label htmlFor="name">
+      <label htmlFor="name" className="form__label-flex form__label_step1">
         Name
-        <br />
         <input
           type="text"
           name="name"
@@ -122,16 +119,14 @@ const Form = () => {
           onBlur={formik.handleBlur}
           value={formik.values.name}
           id="field-name"
-          placeholder="Напишите ваше имя"
+          placeholder="Имя"
           className={inputClass('name')}
           required
         />
         {formik.errors.name && formik.touched.name && <p className="form__error-text">{formik.errors.name}</p>}
       </label>
-      <br />
-      <label htmlFor="surname">
+      <label htmlFor="surname" className="form__label-flex form__label_step1">
         Surname
-        <br />
         <input
           type="text"
           name="surname"
@@ -139,16 +134,14 @@ const Form = () => {
           onBlur={formik.handleBlur}
           value={formik.values.surname}
           id="field-surname"
-          placeholder="Напишите вашу фамилию"
+          placeholder="Фамилия"
           className={inputClass('surname')}
           required
         />
         {formik.errors.surname && formik.touched.surname && <p className="form__error-text">{formik.errors.surname}</p>}
       </label>
-      <br />
-      <label htmlFor="sex">
+      <label htmlFor="sex" className="form__label-flex form__label_step1">
         Sex
-        <br />
         <select
           name="sex"
           onChange={handleInputChange}
@@ -159,13 +152,12 @@ const Form = () => {
           className={inputClass('sex')}
           required
         >
-          <option value="" disabled>Значение не выбрано</option>
+          <option value="" disabled>Не выбрано</option>
           <option value="man" id="field-sex-option-man">man</option>
           <option value="woman" id="field-sex-option-woman">woman</option>
         </select>
         {formik.errors.sex && formik.touched.sex && <p className="form__error-text">{formik.errors.sex}</p>}
       </label>
-      <br />
       <div className="form__button-wrap">
         <button
           type="button"
