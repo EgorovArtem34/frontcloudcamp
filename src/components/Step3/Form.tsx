@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import './stepThree.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { addFinishedStep, setActiveStep } from '../../store/progressBarSlice';
-import { getTrueKeysCheckBoxes, myEmail, myPhone } from '../../utils/utils';
+import { getTrueCheckBoxes, myEmail, myPhoneTypeNumber } from '../../utils/utils';
 import { setShowModal } from '../../store/modalsSlice';
+import { postUserData } from '../../store/userSlice';
 
 const Form = () => {
   const navigate = useNavigate();
@@ -24,7 +25,11 @@ const Form = () => {
     if (inputEl.current) {
       inputEl.current.focus();
     }
-  }, []);
+    if (!(finishedSteps.includes(activeStep - 1))) {
+      dispatch(setActiveStep(activeStep - 1));
+      navigate(`/step${activeStep - 1}`);
+    }
+  }, [activeStep, dispatch, finishedSteps, navigate]);
 
   const signUpSchema = yup.object().shape({
     about: yup
@@ -38,23 +43,28 @@ const Form = () => {
     },
     validationSchema: signUpSchema,
     onSubmit: (value) => {
-      const currentCheckBoxes = getTrueKeysCheckBoxes(checkBoxes);
+      const currentCheckBoxes = getTrueCheckBoxes(checkBoxes);
+
       const dataForPostToApi = {
         email: myEmail,
-        phone: myPhone,
+        phone: myPhoneTypeNumber,
         ...step1,
         advantages,
         selectedCheckBoxes: currentCheckBoxes,
         selectedRadioValue,
-        about: value,
+        about: value.about,
       };
-      dispatch(addFinishedStep(3));
-      // dispatch(postUserData(dataForPostToApi));
+      if (!finishedSteps.includes(activeStep)) {
+        dispatch(addFinishedStep(activeStep));
+      }
+      dispatch(postUserData(dataForPostToApi));
       dispatch(setShowModal(true));
     },
   });
 
   const handleBack = () => {
+    const previousStep = 2;
+    dispatch(setActiveStep(previousStep));
     navigate(-1);
   };
 
@@ -62,14 +72,13 @@ const Form = () => {
     'form__label-error': formik.errors.about && formik.touched.about,
     mb88: !(formik.errors.about && formik.touched.about),
   });
-
   const textErrClass = () => cn('form__error-text', {
     mb64: formik.errors.about && formik.touched.about,
   });
 
   return (
     <form className="form" onSubmit={formik.handleSubmit}>
-      <label htmlFor="about" className="form__label-flex">
+      <label htmlFor="field-about" className="form__label-flex">
         About
         <textarea
           name="about"
@@ -82,7 +91,11 @@ const Form = () => {
           disabled={postData.isLoading}
           ref={inputEl}
         />
-        {formik.errors.about && formik.touched.about && <p className={textErrClass()}>{formik.errors.about}</p>}
+        {formik.errors.about && formik.touched.about && (
+          <p className={textErrClass()}>
+            {formik.errors.about}
+          </p>
+        )}
       </label>
       <div className="form__button-wrap">
         <button
@@ -97,7 +110,8 @@ const Form = () => {
           type="submit"
           className="form__button button__submit"
           id="button-next"
-          disabled={!formik.isValid || (formik.isSubmitting && !formik.dirty) || postData.isLoading}
+          disabled={!formik.isValid || (formik.isSubmitting && !formik.dirty)
+            || postData.isLoading || finishedSteps.length < 2}
         >
           Отправить
         </button>
