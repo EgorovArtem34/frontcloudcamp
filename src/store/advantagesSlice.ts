@@ -21,7 +21,8 @@ const advantagesSlice = createSlice({
     },
     setAdvantageValueById(state, { payload }: PayloadAction<Advantage>) {
       const { id, value } = payload;
-      state.advantages = state.advantages.map((advantage) => (advantage.id === id ? { ...advantage, value } : advantage));
+      state.advantages = state.advantages
+        .map((advantage) => (advantage.id === id ? { ...advantage, value } : advantage));
     },
     reseteAdvantages(state) {
       state.advantages = initialState.advantages;

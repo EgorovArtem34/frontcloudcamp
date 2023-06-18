@@ -12,6 +12,7 @@ export const postUserData = createAsyncThunk(
     if (!response.ok) {
       return rejectWithValue(`error, status ${response.status}`);
     }
+    return response.json();
   },
 );
 

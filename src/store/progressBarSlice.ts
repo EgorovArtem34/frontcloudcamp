@@ -20,8 +20,16 @@ const progressBarSlice = createSlice({
       state.finishedSteps = [];
       state.activeStep = 1;
     },
+    removeFinishedStepByNum(state, { payload }: PayloadAction<number>) {
+      state.finishedSteps = state.finishedSteps.filter((step) => step < payload);
+    },
   },
 });
 
-export const { setActiveStep, addFinishedStep, resetProgressBar } = progressBarSlice.actions;
+export const {
+  setActiveStep,
+  addFinishedStep,
+  resetProgressBar,
+  removeFinishedStepByNum,
+} = progressBarSlice.actions;
 export default progressBarSlice.reducer;
