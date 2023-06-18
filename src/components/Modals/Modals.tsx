@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import './modals.scss';
 import successIcon from '../../assets/icon/successIcon.png';
 import errorIcon from '../../assets/icon/errorIcon.png';
+import closeIcon from '../../assets/icon/errorClose.svg';
 import { setShowModal } from '../../store/modalsSlice';
 import { resetAboutValue } from '../../store/aboutSlice';
 import { reseteAdvantages } from '../../store/advantagesSlice';
@@ -11,27 +12,31 @@ import { resetStatusCheckBox } from '../../store/checkBoxesSlice';
 import { resetProgressBar } from '../../store/progressBarSlice';
 import { resetRadioValue } from '../../store/radioInputsSlice';
 import { resetUserState } from '../../store/userSlice';
+import ModalLoader from './ModalLoader';
 
 const Modals = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { isModalShow } = useAppSelector((state) => state.modalsSlice);
-  const { postData: { error } } = useAppSelector((state) => state.userSlice);
+  const { postData: { error, isLoading } } = useAppSelector((state) => state.userSlice);
   if (!isModalShow) {
     return null;
   }
-  const titleClass = () => cn('modal__title', {
-    modal__title_error: error,
-    modal__title_success: !error,
+  if (isLoading) {
+    return <ModalLoader />;
+  }
+  const headerClass = () => cn('modal__header', {
+    modal__header_error: error,
+    modal__header_success: !error,
   });
   const footerClass = () => cn('modal__footer', {
     modal__footer_center: !error,
     modal__footer_right: error,
   });
 
-  const handleClick = (err: string | null) => {
+  const handleClick = () => {
     dispatch(setShowModal(false));
-    if (err) {
+    if (error) {
       return;
     }
     dispatch(resetAboutValue());
@@ -42,22 +47,37 @@ const Modals = () => {
     dispatch(resetUserState());
     navigate('/');
   };
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      event.stopPropagation();
+    }
+  };
 
   return (
     <div
       className="modal"
-      onClick={() => handleClick(error)}
-      onKeyDown={() => handleClick(error)}
+      onClick={handleClick}
+      onKeyDown={handleClick}
+      role="button"
+      tabIndex={0}
     >
       <div
         className="modal__content"
         onClick={(event) => event.stopPropagation()}
-        onKeyDown={(event) => event.stopPropagation()}
+        onKeyDown={handleKeyDown}
+        role="button"
+        tabIndex={0}
       >
-        <div className="modal__header">
-          <h3 className={titleClass()}>
+        <div className={headerClass()}>
+          <h3 className="modal__title">
             {error ? 'Ошибка' : 'Форма успешно отправлена'}
           </h3>
+          {error ? (
+            <button type="button" className="button-transparent" onClick={handleClick}>
+              <img src={closeIcon} alt="закрыть" className="modal__close-icon" />
+            </button>
+          )
+            : null}
         </div>
         <div className="modal__body">
           <div className="modal__logo__container">
@@ -65,13 +85,14 @@ const Modals = () => {
           </div>
         </div>
         <div className={footerClass()}>
-          <a
+          <button
             type="button"
-            onClick={() => handleClick(error)}
-            className="modal__link"
+            onClick={handleClick}
+            className="form__button"
+            id={error ? 'button-close' : 'button-to-main'}
           >
             {error ? 'Закрыть' : 'На главную'}
-          </a>
+          </button>
         </div>
       </div>
     </div>
