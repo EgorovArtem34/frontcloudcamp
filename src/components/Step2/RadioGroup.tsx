@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { setStatusCheckBox } from '../../store/checkBoxesSlice';
 import './stepTwo.scss';
 import { setRadioValue } from '../../store/radioInputsSlice';
 
@@ -14,7 +13,7 @@ const RadioGroup = () => {
   };
 
   const createRadioInputs = () => (radioInputs.map((num) => (
-    <label key={num} className="checkbox-label">
+    <label htmlFor={`field-radio-group-option-${num}`} key={num} className="checkbox-label">
       <input
         type="radio"
         name={`radio-${num}`}
@@ -22,7 +21,7 @@ const RadioGroup = () => {
         checked={selectedRadioValue === num}
         onChange={handleOptionChange}
         id={`field-radio-group-option-${num}`}
-        className="checkbox-input"
+        className="checkbox-input radio-input"
       />
       {num}
     </label>

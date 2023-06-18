@@ -23,6 +23,9 @@
 }
 
 .button-plus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 44px;
   height: 44px;
   margin-bottom: 24px;

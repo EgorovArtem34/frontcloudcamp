@@ -9,7 +9,7 @@ const CheckBoxGroup = () => {
   const checkBoxNumbers = [1, 2, 3];
 
   const createCheckBoxes = () => (checkBoxNumbers.map((num) => (
-    <label key={num} className="checkbox-label">
+    <label htmlFor={`field-checkbox-group-option-${num}`} key={num} className="checkbox-label">
       <input
         type="checkbox"
         name={`checkbox${num}`}

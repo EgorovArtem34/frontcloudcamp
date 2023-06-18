@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useTransition, animated } from 'react-spring';
 import { useNavigate } from 'react-router-dom';
 import './stepTwo.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
@@ -7,13 +9,28 @@ import removeIcon from '../../assets/icon/remove-input.svg';
 import plusIcon from '../../assets/icon/plus.svg';
 import CheckBoxGroup from './CheckBoxGroup';
 import RadioGroup from './RadioGroup';
+import { Advantage } from '../../types';
 
 const Form = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { advantages } = useAppSelector((state) => state.advantagesSlice);
   const { activeStep, finishedSteps } = useAppSelector((state) => state.progressBarSlice);
+  const previousStep = activeStep - 1;
 
+  useEffect(() => {
+    if (!(finishedSteps.includes(previousStep))) {
+      navigate('/step1');
+    }
+  }, [finishedSteps, previousStep, navigate]);
+
+  const transitions = useTransition(advantages, {
+    key: (item: Advantage) => item.id,
+    from: { opacity: 0, transform: 'translateY(-10px)' },
+    enter: { opacity: 1, transform: 'translateY(0)' },
+    leave: { opacity: 0, transform: 'translateY(-10px)' },
+    config: { duration: 300 },
+  });
   const handleSubmit = () => {
     const nextStep = 3;
 
@@ -30,7 +47,6 @@ const Form = () => {
   };
 
   const handleBack = () => {
-    const previousStep = 1;
     dispatch(setActiveStep(previousStep));
     navigate(-1);
   };
@@ -44,22 +60,28 @@ const Form = () => {
     dispatch(addNewAdvantage({ id: newId, value: '' }));
   };
 
-  const createInputs = () => (advantages.map((advantage) => (
-    <div className="form__input_wrapper" key={advantage.id}>
-      <input
-        type="text"
-        name={`advantage${advantage.id}`}
-        onChange={(event) => handleInputChange(event, advantage.id)}
-        value={advantage.value}
-        placeholder="Placeholder"
-        id={advantage.id.toString()}
-        className="form__input form__input_step2"
-      />
-      <button type="button" className="button-transparent" onClick={() => handleRemoveInput(advantage.id)}>
-        <img src={removeIcon} alt="remove" className="form__remove-input-icon" />
-      </button>
-    </div>
-  )));
+  const createInputs = () => (
+    transitions((style, item) => (
+      <animated.div
+        style={style}
+        className="form__input_wrapper"
+        key={item.id}
+      >
+        <input
+          type="text"
+          name={`advantage${item.id}`}
+          onChange={(event) => handleInputChange(event, item.id)}
+          value={item.value}
+          placeholder="Placeholder"
+          id={item.id.toString()}
+          className="form__input form__input_step2"
+        />
+        <button type="button" className="button-transparent" onClick={() => handleRemoveInput(item.id)}>
+          <img src={removeIcon} alt="remove" className="form__remove-input-icon" />
+        </button>
+      </animated.div>
+    ))
+  );
 
   return (
     <form className="form" onSubmit={handleSubmit}>
