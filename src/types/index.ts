@@ -25,6 +25,7 @@ export type UserStateType = {
 };
 
 export type InputNameType = 'nickname' | 'name' | 'surname' | 'sex';
+export type InputMainPageType = 'phoneNumber' | 'email';
 
 export interface Advantage {
   id: number;
@@ -49,15 +50,15 @@ export type RadioInputStateType = {
 
 export type DataPostType = {
   advantages: Advantage[];
-  checkBoxes: CheckboxState;
+  selectedCheckBoxes: number[];
   selectedRadioValue: number | null;
-  about: {
-    about: string;
-  };
+  about: string;
   nickname: string;
   name: string;
   surname: string;
   sex: '' | Gender;
   email: string;
-  phone: string;
+  phone: number;
 };
+
+export type CheckboxesType = Record<number, boolean>;
