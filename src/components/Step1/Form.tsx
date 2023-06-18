@@ -9,7 +9,7 @@ import { Gender, InputNameType } from '../../types';
 import {
   setNickName, setName, setSurname, setSex,
 } from '../../store/userSlice';
-import { addFinishedStep, setActiveStep } from '../../store/progressBarSlice';
+import { addFinishedStep, removeFinishedStepByNum, setActiveStep } from '../../store/progressBarSlice';
 
 const Form = () => {
   const navigate = useNavigate();
@@ -19,28 +19,21 @@ const Form = () => {
     nickname, name, surname, sex,
   } = useAppSelector((state) => state.userSlice.step1);
   const { activeStep, finishedSteps } = useAppSelector((state) => state.progressBarSlice);
-
-  useEffect(() => {
-    if (inputEl.current) {
-      inputEl.current.focus();
-    }
-  }, []);
-
   const signUpSchema = yup.object().shape({
     nickname: yup
       .string()
       .max(30, 'Максимальная длина никнейма - 30 символов')
-      .matches(/^[a-zA-Z0-9]+$/, 'Никнейм может содержать только буквы и цифры')
+      .matches(/^[a-zA-Z0-9]+$/, 'Никнейм может содержать только латинские буквы и цифры')
       .required('Поле является обязательным'),
     name: yup
       .string()
       .max(50, 'Максимальная длина имени - 50 символов')
-      .matches(/^[a-zA-Z]+$/, 'Имя может содержать только буквы')
+      .matches(/^[a-zA-Z]+$/, 'Имя может содержать только латинские буквы')
       .required('Поле является обязательным'),
     surname: yup
       .string()
       .max(50, 'Максимальная длина фамилии - 50 символов')
-      .matches(/^[a-zA-Z]+$/, 'Фамилия может содержать только буквы')
+      .matches(/^[a-zA-Z]+$/, 'Фамилия может содержать только латинские буквы')
       .required('Поле является обязательным'),
     sex: yup.string().oneOf(['man', 'woman'], 'Выберите пол').required('Поле является обязательным'),
   });
@@ -62,10 +55,19 @@ const Form = () => {
       navigate('/step2');
     },
   });
-
   const inputClass = (inputName: InputNameType) => cn('form__input', 'form__input_step1', {
     'form__input-error': formik.errors[inputName] && formik.touched[inputName],
   });
+
+  useEffect(() => {
+    if (inputEl.current) {
+      inputEl.current.focus();
+    }
+
+    if (formik.dirty && finishedSteps.includes(activeStep)) {
+      dispatch(removeFinishedStepByNum(activeStep));
+    }
+  }, [formik.dirty, dispatch, finishedSteps, activeStep]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name: inputName, value } = event.target;
@@ -94,7 +96,7 @@ const Form = () => {
 
   return (
     <form className="form" onSubmit={formik.handleSubmit}>
-      <label htmlFor="nickname" className="form__label-flex form__label_step1">
+      <label htmlFor="field-nickname" className="form__label-flex form__label_step1">
         Nickname
         <input
           type="text"
@@ -110,7 +112,7 @@ const Form = () => {
         />
         {formik.errors.nickname && formik.touched.nickname && <p className="form__error-text">{formik.errors.nickname}</p>}
       </label>
-      <label htmlFor="name" className="form__label-flex form__label_step1">
+      <label htmlFor="field-name" className="form__label-flex form__label_step1">
         Name
         <input
           type="text"
@@ -125,7 +127,7 @@ const Form = () => {
         />
         {formik.errors.name && formik.touched.name && <p className="form__error-text">{formik.errors.name}</p>}
       </label>
-      <label htmlFor="surname" className="form__label-flex form__label_step1">
+      <label htmlFor="field-surname" className="form__label-flex form__label_step1">
         Surname
         <input
           type="text"
@@ -140,7 +142,7 @@ const Form = () => {
         />
         {formik.errors.surname && formik.touched.surname && <p className="form__error-text">{formik.errors.surname}</p>}
       </label>
-      <label htmlFor="sex" className="form__label-flex form__label_step1">
+      <label htmlFor="field-sex" className="form__label-flex form__label_step1">
         Sex
         <select
           name="sex"
