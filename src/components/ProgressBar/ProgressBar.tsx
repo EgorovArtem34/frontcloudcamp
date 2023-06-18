@@ -25,8 +25,6 @@ const ProgressBar = () => {
 
   useEffect(() => {
     const calculatedWidth = calculateProgressBarWidth(activeStep);
-    console.log('progressBAR', calculatedWidth, activeStep);
-
     document.documentElement.style.setProperty('--finished-steps-width', `${calculatedWidth}%`);
   }, [activeStep, location]);
 
