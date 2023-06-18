@@ -1,4 +1,4 @@
-import { CheckboxStateType } from '../types';
+import { CheckboxesType } from '../types';
 
 const calculateProgressBarWidth = (finishedStepsCount: number) => {
   switch (finishedStepsCount) {
@@ -12,18 +12,21 @@ const calculateProgressBarWidth = (finishedStepsCount: number) => {
       return `Invalid finishedStepsCount: ${finishedStepsCount}`;
   }
 };
+export const removeNonNumericChars = (str: string) => Number(str.replace(/\D/g, ''));
 
-export const myPhone = '+7 999 999-99-99';
+export const myPhone = '+7 (999) 999-99-99';
+export const myPhoneTypeNumber = removeNonNumericChars(myPhone);
 export const myEmail = 'artegtor@gmail.com';
 
 export const myLinks = [
-  { name: 'Telegram', url: 'https://t.me/artegtor' },
-  { name: 'GitHub', url: 'https://github.com/EgorovArtem34' },
-  { name: 'Resume', url: 'https://career.habr.com/artegtor' },
+  { name: 'Telegram', url: 'https://t.me/artegtor', id: 1 },
+  { name: 'GitHub', url: 'https://github.com/EgorovArtem34', id: 2 },
+  { name: 'Resume', url: 'https://ufa.hh.ru/resume/d4a2f271ff0c137e2a0039ed1f645442394448', id: 3 },
 ];
 
-export const getTrueKeysCheckBoxes = (checkBoxes: Record<number, boolean>): number[] => Object.keys(checkBoxes).reduce<number[]>((acc, key) => {
-  const numericKey = parseInt(key);
+export const getTrueCheckBoxes = (checkBoxes: CheckboxesType): number[] => Object.keys(checkBoxes)
+  .reduce<number[]>((acc, key) => {
+  const numericKey = parseInt(key, 10);
   if (checkBoxes[numericKey]) {
     acc.push(numericKey);
   }
