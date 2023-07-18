@@ -40,17 +40,9 @@ const ProgressBar = () => {
 
   const handleClick = (stepNumber: number) => {
     const finishedStepsLength = finishedSteps.length;
-    switch (finishedStepsLength) {
-      case 0:
-        break;
-      case 1:
-      case 2:
-      case 3:
-        dispatch(setActiveStep(stepNumber));
-        navigate(`/step${stepNumber}`);
-        break;
-      default:
-        break;
+    if (finishedStepsLength >= 1) {
+      dispatch(setActiveStep(stepNumber));
+      navigate(`/step${stepNumber}`);
     }
   };
 
